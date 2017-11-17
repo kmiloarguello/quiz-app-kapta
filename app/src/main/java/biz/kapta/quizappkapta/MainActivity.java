@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     RadioButton answer1,answer2, answer3, answer4,answer;
     Button sendAnswers;
 
-    TextView score, question;
+    TextView score, question, level, currentQuestion;
 
     private Questions mQuestions = new Questions();
 
@@ -42,16 +42,21 @@ public class MainActivity extends AppCompatActivity {
         r = new Random();
 
         score = (TextView) findViewById(R.id.score);
+        currentQuestion = (TextView) findViewById(R.id.currentQuestion);
+        level = (TextView) findViewById(R.id.level);
         question = (TextView) findViewById(R.id.question);
         answers = (RadioGroup) findViewById(R.id.answers);
         answer1 = (RadioButton) findViewById(R.id.answer1);
         answer2 = (RadioButton) findViewById(R.id.answer2);
         answer3 = (RadioButton) findViewById(R.id.answer3);
         answer4 = (RadioButton) findViewById(R.id.answer4);
+
         sendAnswers = (Button) findViewById(R.id.sendAnswers);
 
         score.setText("Puntaje : "+ mScore);
+        level.setText("Nivel 1");
         updateQuestion(r.nextInt(mQuestionsLength));
+
 
         // ----------------------------------------------------------------------------
         // BUTTON
@@ -82,9 +87,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateQuestion(int num){
-
-        Toast.makeText(this, "Siguiente Pregunta ", Toast.LENGTH_SHORT).show();
-
+        currentQuestion.setText("Pregunta " + String.valueOf(num));
         question.setText(mQuestions.getQuestion(num));
 
         answer1.setText(mQuestions.getChoice(num));
