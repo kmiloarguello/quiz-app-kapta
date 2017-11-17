@@ -61,21 +61,39 @@ public class MainActivity extends AppCompatActivity {
         answer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(answer2.getText() == mAnswer){
+                    mScore++;
+                    score.setText("Score: "+ mScore);
+                    updateQuestion(r.nextInt(mQuestionsLength));
+                }else{
+                    gameOver();
+                }
             }
         });
 
         answer3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(answer3.getText() == mAnswer){
+                    mScore++;
+                    score.setText("Score: "+ mScore);
+                    updateQuestion(r.nextInt(mQuestionsLength));
+                }else{
+                    gameOver();
+                }
             }
         });
 
         answer4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(answer4.getText() == mAnswer){
+                    mScore++;
+                    score.setText("Score: "+ mScore);
+                    updateQuestion(r.nextInt(mQuestionsLength));
+                }else{
+                    gameOver();
+                }
             }
         });
 
@@ -91,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         mAnswer = mQuestions.getCorrectAnswer(num);
     }
     private void gameOver(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog().Builder(MainActivity.this);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilder
                 .setMessage("Juego terminado! Tu puntaje es de " + mScore + " puntos.")
                 .setCancelable(false)
