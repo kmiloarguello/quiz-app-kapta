@@ -51,13 +51,13 @@
         android:layout_alignParentStart="true"
         android:textSize="24sp"
         android:gravity="center"
-        android:id="@+id/textView" />
+        android:id="@+id/score" />
 
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/score"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:id="@+id/question"
