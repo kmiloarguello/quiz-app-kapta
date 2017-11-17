@@ -7,7 +7,7 @@
     <color name="colorPrimaryText">#003c56</color>
     <color name="colorSecondaryText">#757575</color>
     <color name="colorIcons">#FFFFFF</color>
-    <color name="coloDivider">#BDBDBD</color>
+    <color name="coloDivider">#EEE</color>
     <color name="backgroundTextCard">#53292929</color>
 
 </resources>

@@ -11,13 +11,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button answer1, answer2, answer3, answer4;
+    RadioGroup answers;
+    RadioButton answer1,answer2, answer3, answer4,answer;
+    Button sendAnswers;
 
     TextView score, question;
 
@@ -36,95 +41,70 @@ public class MainActivity extends AppCompatActivity {
 
         r = new Random();
 
-        answer1 = (Button) findViewById(R.id.answer1);
-        answer2 = (Button) findViewById(R.id.answer2);
-        answer3 = (Button) findViewById(R.id.answer3);
-        answer4 = (Button) findViewById(R.id.answer4);
-
         score = (TextView) findViewById(R.id.score);
         question = (TextView) findViewById(R.id.question);
+        answers = (RadioGroup) findViewById(R.id.answers);
+        answer1 = (RadioButton) findViewById(R.id.answer1);
+        answer2 = (RadioButton) findViewById(R.id.answer2);
+        answer3 = (RadioButton) findViewById(R.id.answer3);
+        answer4 = (RadioButton) findViewById(R.id.answer4);
+        sendAnswers = (Button) findViewById(R.id.sendAnswers);
 
-        score.setText("Score: "+ mScore);
-
+        score.setText("Puntaje : "+ mScore);
         updateQuestion(r.nextInt(mQuestionsLength));
 
-        answer1.setOnClickListener(new View.OnClickListener() {
+        // ----------------------------------------------------------------------------
+        // BUTTON
+        sendAnswers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(answer1.getText() == mAnswer){
-                    answer1.setBackgroundColor(Color.GREEN);
-                    mScore++;
-                    score.setText("Score: "+ mScore);
-                    //updateQuestion(r.nextInt(mQuestionsLength));
-                }else{
-                    gameOver();
-                }
-            }
-        });
 
-        answer2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(answer2.getText() == mAnswer){
-                    answer2.setBackgroundColor(Color.GREEN);
-                    mScore++;
-                    score.setText("Score: "+ mScore);
-                    //updateQuestion(r.nextInt(mQuestionsLength));
-                }else{
-                    gameOver();
-                }
-            }
-        });
+                if(answer1.isChecked() || answer2.isChecked() || answer3.isChecked() || answer4.isChecked()){
+                    int selected = answers.getCheckedRadioButtonId();
+                    answer = (RadioButton) findViewById(selected);
 
-        answer3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(answer3.getText() == mAnswer){
-                    answer3.setBackgroundColor(Color.GREEN);
-                    mScore++;
-                    score.setText("Score: "+ mScore);
-                    //updateQuestion(r.nextInt(mQuestionsLength));
+                    if(answer.getText() == mAnswer) {
+                        Toast.makeText(MainActivity.this, "Correcto!!. La Rta " + answer.getText() + " es correcta." , Toast.LENGTH_SHORT).show();
+                        mScore++;
+                        score.setText("Score: "+ mScore);
+                        updateQuestion(r.nextInt(mQuestionsLength));
+                    }else{
+                        //Toast.makeText(MainActivity.this, "Incorrecto!!." , Toast.LENGTH_SHORT).show();
+                        gameOver();
+                    }
                 }else{
-                    gameOver();
+                    Toast.makeText(MainActivity.this, "No has seleccionado una respuesta. " , Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
 
-        answer4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(answer4.getText() == mAnswer){
-                    answer4.setBackgroundColor(Color.GREEN);
-                    mScore++;
-                    score.setText("Score: "+ mScore);
-                    //updateQuestion(r.nextInt(mQuestionsLength));
-                }else{
-                    gameOver();
-                }
             }
         });
 
     }
 
     private void updateQuestion(int num){
+
+        Toast.makeText(this, "Siguiente Pregunta ", Toast.LENGTH_SHORT).show();
+
         question.setText(mQuestions.getQuestion(num));
+
         answer1.setText(mQuestions.getChoice(num));
-        answer1.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
         answer2.setText(mQuestions.getChoice2(num));
-        answer2.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
         answer3.setText(mQuestions.getChoice3(num));
-        answer3.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
         answer4.setText(mQuestions.getChoice4(num));
-        answer4.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
+
+        answer1.setChecked(false);
+        answer2.setChecked(false);
+        answer3.setChecked(false);
+        answer4.setChecked(false);
 
         mAnswer = mQuestions.getCorrectAnswer(num);
     }
     private void gameOver(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilder
-                .setMessage("Juego terminado! Tu puntaje es de " + mScore + " puntos.")
+                .setMessage("Incorrecto!! ¿Quieres volver a intentarlo?")
                 .setCancelable(false)
-                .setPositiveButton("Iniciar de nuevo",
+                .setPositiveButton("Si",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -133,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                 )
-                .setNegativeButton("Salir",
+                .setNegativeButton("No, Salir",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -143,4 +123,6 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+
+
 }

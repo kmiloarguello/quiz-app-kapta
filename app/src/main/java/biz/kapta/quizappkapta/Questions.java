@@ -26,7 +26,6 @@ public class Questions {
         String question = mQuestions[a];
         return question;
     }
-
     public String getChoice(int a){
         String choice = mChoices[a][0];
         return choice;
