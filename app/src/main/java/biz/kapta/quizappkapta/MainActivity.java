@@ -1,5 +1,9 @@
 package biz.kapta.quizappkapta;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.preference.DialogPreference;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        r = new Random();
+
         answer1 = (Button) findViewById(R.id.answer1);
         answer2 = (Button) findViewById(R.id.answer2);
         answer3 = (Button) findViewById(R.id.answer3);
@@ -35,10 +41,20 @@ public class MainActivity extends AppCompatActivity {
         score = (TextView) findViewById(R.id.score);
         question = (TextView) findViewById(R.id.question);
 
+        score.setText("Score: "+ mScore);
+
+        updateQuestion(r.nextInt(mQuestionsLength));
+
         answer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(answer1.getText() == mAnswer){
+                    mScore++;
+                    score.setText("Score: "+ mScore);
+                    updateQuestion(r.nextInt(mQuestionsLength));
+                }else{
+                    gameOver();
+                }
             }
         });
 
@@ -63,5 +79,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void updateQuestion(int num){
+        question.setText(mQuestions.getQuestion(num));
+        answer1.setText(mQuestions.getChoice(num));
+        answer2.setText(mQuestions.getChoice2(num));
+        answer3.setText(mQuestions.getChoice3(num));
+        answer4.setText(mQuestions.getChoice4(num));
+
+        mAnswer = mQuestions.getCorrectAnswer(num);
+    }
+    private void gameOver(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog().Builder(MainActivity.this);
+        alertDialogBuilder
+                .setMessage("Juego terminado! Tu puntaje es de " + mScore + " puntos.")
+                .setCancelable(false)
+                .setPositiveButton("Iniciar de nuevo",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            }
+                        }
+                )
+                .setNegativeButton("Salir",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
     }
 }
