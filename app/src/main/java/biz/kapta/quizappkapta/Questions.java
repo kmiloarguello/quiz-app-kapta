@@ -8,18 +8,18 @@ public class Questions {
 
     public String mQuestions[] = {
             "Cuanto es 2 + 1?",
-            "Cuanto es 2 + 2?",
-            "Cuanto es 2 + 3?"
+            "Cuanto es 5 + 1?",
+            "Cuanto es 3 * 3?"
     };
 
     private String mChoices[][] = {
-            {"1","2","4","3"},
-            {"2","3","4","5"},
-            {"4","5","6","7"}
+            {"4","5","1","3"},
+            {"6","10","7","5"},
+            {"3","27","9","6"}
     };
 
     private String mCorrectAnswers[] = {
-            "3","4","5"
+            "3","6","9"
     };
 
     public String getQuestion(int a){
